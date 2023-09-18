@@ -10,6 +10,7 @@
     <a href='/member/list'>회원</a>
     <a href='/board/list?category=1'>게시글</a>
     <a href='/board/list?category=2'>독서록</a>
+    <a href='/auctionArticle/list'>미술품</a>
     <a data-th-if="${session.loginUser == null}" href='/auth/form'>로그인</a>
     <div style="display:inline;" data-th-if="${session.loginUser != null}">
         <img data-th-if="${session.loginUser.photo == null}" style='height:40px' src='/images/avatar.png'>

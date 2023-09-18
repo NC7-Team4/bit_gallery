@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>게시글</title>
+</head>
+<body>
+<div data-th-replace="header :: header"></div>
+<h1>미술품 목록</h1>
+<table border='1'>
+<thead>
+  <tr><th>번호</th> <th>제목</th> <th>작가</th> <th>시작날짜</th> <th>종료날짜</th></tr>
+</thead>
+<tbody>
+    <tr data-th-each="auctionArticle : ${list}">
+      <td data-th-text="${auctionArticle.no}">100</td>
+        <td data-th-text="${auctionArticle.title}">제목</td>
+        <td data-th-text="${auctionArticle.writer.name}">작가</td>
+        <td data-th-text="${#dates.format(auctionArticle.startDate,'yyyy-MM-dd')}">2021-09-14</td>
+        <td data-th-text="${#dates.format(auctionArticle.endDate,'yyyy-MM-dd')}">2021-09-14</td>
+    </tr>
+</tbody>
+</table>
+<a data-th-href='@{/}'>메인</a>
+
+<div data-th-replace="footer :: footer"></div>
+
+</body>
+</html>

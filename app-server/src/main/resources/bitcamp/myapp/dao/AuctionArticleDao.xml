@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.myapp.dao.AuctionArticleDao">
+
+  <!-- 결과 레코드의 컬럼 값을 자바 객체에 어떻게 담을 것인지 설정한다. -->
+  <resultMap type="auctionArticle" id="auctionArticleMap">
+    <id column="article_no" property="no"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="view_count" property="viewCount"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="photo" property="photo"/>
+    <result column="start_date" property="startDate"/>
+    <result column="end_date" property="endDate"/>
+    <result column="status" property="status"/>
+    <result column="current_price" property="currentPrice"/>
+    <result column="end_price" property="endPrice"/>
+    <result column="bid_count" property="bidCount"/>
+
+    <association property="writer" javaType="auctionMember">
+      <id     column="user_no"    property="no"/>
+      <result column="name"         property="name"/>
+    </association>
+
+  </resultMap>
+
+  <select id="findAll" resultMap="auctionArticleMap">
+    select
+      a.article_no,
+      a.title,
+      a.content,
+      a.view_count,
+      a.photo,
+      a.start_date,
+      a.end_date,
+      a.status,
+      a.current_price,
+      a.end_price,
+      a.bid_count,
+      u.name
+    from
+      auction_article a inner join auction_user u on a.user_no = u.user_no
+    order by
+      article_no desc
+  </select>
+
+  <select id="findAuctionArticlesByDate" parameterType="String" resultMap="auctionArticleMap">
+    select
+      a.article_no,
+      a.title,
+      a.content,
+      a.view_count,
+      a.photo,
+      a.start_date,
+      a.end_date,
+      a.status,
+      a.current_price,
+      a.end_price,
+      a.bid_count,
+      u.name
+    from
+      auction_article a
+    inner join auction_user u on a.user_no = u.user_no
+    where
+      a.start_date &lt;= #{date}
+      AND a.end_date >= #{date}
+    order by
+      a.article_no desc
+  </select>
+
+</mapper>
+
+
+
+
+

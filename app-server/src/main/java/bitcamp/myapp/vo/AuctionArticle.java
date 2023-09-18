@@ -2,8 +2,7 @@ package bitcamp.myapp.vo;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Objects;
+import java.text.SimpleDateFormat;
 
 public class AuctionArticle implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -17,7 +16,9 @@ public class AuctionArticle implements Serializable {
   private String photo;
   private Timestamp startDate;
   private Timestamp endDate;
-  private Status status;
+  private String startDateStr;
+  private String endDateStr;
+  private String status;
   private int currentPrice;
   private int endPrice;
   private int bidCount;
@@ -77,7 +78,21 @@ public class AuctionArticle implements Serializable {
     this.endDate = endDate;
   }
 
-  public void setStatus(Status status) {
+  public String getStartDateStr() {
+    if (startDate != null) {
+      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startDate);
+    }
+    return null;
+  }
+
+  public String getEndDateStr() {
+    if (endDate != null) {
+      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endDate);
+    }
+    return null;
+  }
+
+  public void setStatus(String status) {
     this.status = status;
   }
 
@@ -129,7 +144,7 @@ public class AuctionArticle implements Serializable {
     return endDate;
   }
 
-  public Status getStatus() {
+  public String getStatus() {
     return status;
   }
 
