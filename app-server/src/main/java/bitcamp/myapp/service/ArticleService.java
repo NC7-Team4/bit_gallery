@@ -1,13 +1,14 @@
 package bitcamp.myapp.service;
 
 import bitcamp.myapp.vo.Article;
+import bitcamp.myapp.vo.Status;
 
 import java.util.List;
 
 public interface ArticleService {
   int add(Article article) throws Exception;
 
-  List<Article> list(int status) throws Exception;
+  List<Article> list(Status status) throws Exception;
 
   Article get(int articleNo) throws Exception;
 

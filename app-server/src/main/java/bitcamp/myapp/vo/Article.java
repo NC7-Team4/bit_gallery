@@ -16,7 +16,7 @@ public class Article implements Serializable {
   private String photo;
   private Date startDate;
   private Date endDate;
-  private int status;
+  private Status status;
   private int curPrice;
   private int endPrice;
   private int bidCount;
@@ -120,11 +120,11 @@ public class Article implements Serializable {
     this.endDate = endDate;
   }
 
-  public int getStatus() {
+  public Status getStatus() {
     return status;
   }
 
-  public void setStatus(int status) {
+  public void setStatus(Status status) {
     this.status = status;
   }
 
