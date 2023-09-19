@@ -2,6 +2,7 @@ package bitcamp.myapp.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Article implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -14,8 +15,8 @@ public class Article implements Serializable {
   private int viewCount;
   private Date createdDate;
   private String photo;
-  private Date startDate;
-  private Date endDate;
+  private Timestamp startDate;
+  private Timestamp endDate;
   private Status status;
   private int curPrice;
   private int endPrice;
@@ -104,19 +105,19 @@ public class Article implements Serializable {
     this.photo = photo;
   }
 
-  public Date getStartDate() {
+  public Timestamp getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(Date startDate) {
+  public void setStartDate(Timestamp startDate) {
     this.startDate = startDate;
   }
 
-  public Date getEndDate() {
+  public Timestamp getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(Date endDate) {
+  public void setEndDate(Timestamp endDate) {
     this.endDate = endDate;
   }
 

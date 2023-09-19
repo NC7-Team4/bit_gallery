@@ -2,6 +2,7 @@ package bitcamp.myapp.service;
 
 import bitcamp.myapp.dao.ArticleDao;
 import bitcamp.myapp.vo.Article;
+import bitcamp.myapp.vo.Status;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class DefaultArticleService implements ArticleService {
   }
 
   @Override
-  public List<Article> list(int status) throws Exception {
+  public List<Article> list(Status status) throws Exception {
     return articleDao.findAll(status);
   }
 

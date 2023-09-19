@@ -8,6 +8,7 @@
         <id column="article_no"         property="articleNo"/>
         <result column="title"          property="title"/>
         <result column="content"        property="content"/>
+        <result column="artist"         property="artist"/>
         <result column="view_count"     property="viewCount"/>
         <result column="created_date"   property="createdDate"/>
         <result column="photo"          property="photo"/>
@@ -35,61 +36,61 @@
     </resultMap>
 
     <insert id="insert" parameterType="article">
-        insert into auction_article(user_no,title,content,photo,cur_price,end_price)
-        values(#{writer.no},#{title},#{content},#{photo},#{curPrice},#{endPrice})
+        insert into auction_article(user_no,title,content,artist,photo,cur_price,end_price)
+        values(#{writer.no},#{title},#{content},#{artist},#{photo},#{curPrice},#{endPrice})
     </insert>
 
-    <select id="findAll" parameterType="int" resultMap="articleMap">
+    <select id="findAll" parameterType="status" resultMap="articleMap">
         select
-        A.*, U.*
+            A.*, U.*
         from
-        auction_article A inner join auction_user U on A.user_no=U.user_no
+            auction_article A inner join auction_user U on A.user_no=U.user_no
         where
-        status=#{status}
+            status=#{status}
         order by
-        A.article_no
+            A.article_no
     </select>
 
     <select id="findBy" parameterType="int" resultMap="articleMap">
         select
-        A.*, U.*
+            A.*, U.*
         from
-        auction_article A inner join auction_user U on A.user_no=U.user_no
+            auction_article A inner join auction_user U on A.user_no=U.user_no
         where
-        article_no=#{articleNo}
+            article_no=#{articleNo}
         order by
-        A.article_no
+            A.article_no
     </select>
 
     <update id="update" parameterType="article">
         update auction_article set
-        title=#{title}
-        ,content=#{content}
-        ,photo=#{photo}
-        ,cur_price=#{cur_price}
-        ,end_price=#{end_price}
+            title=#{title}
+            ,content=#{content}
+            ,photo=#{photo}
+            ,cur_price=#{cur_price}
+            ,end_price=#{end_price}
         where
-        article_no=#{articleNo}
+            article_no=#{articleNo}
     </update>
 
     <update id="updateViewCount" parameterType="int">
         update auction_article set
-        view_count = view_count + 1
+            view_count = view_count + 1
         where
-        article_no=#{articleNo}
+            article_no=#{articleNo}
     </update>
 
     <delete id="delete" parameterType="int">
         delete from auction_article
         where
-        article_no=#{articleNo}
+            article_no=#{articleNo}
     </delete>
 
     <update id="bid" parameterType="article">
         update auction_article set
-        cur_price=#{curPrice}
-        ,bid_count = bid_count + 1
+            cur_price=#{curPrice}
+            ,bid_count = bid_count + 1
         where
-        article_no=#{articleNo}
+            article_no=#{articleNo}
     </update>
 </mapper>
