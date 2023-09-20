@@ -42,56 +42,56 @@
 
     <select id="findAll" parameterType="status" resultMap="articleMap">
         select
-        A.*, U.*
+          A.*, U.*
         from
-        auction_article A inner join auction_user U on A.user_no=U.user_no
+          auction_article A inner join auction_user U on A.user_no=U.user_no
         where
-        status=#{status}
+          status=#{status}
         order by
-        A.article_no
+          A.article_no
     </select>
 
     <select id="findBy" parameterType="int" resultMap="articleMap">
         select
-        A.*, U.*
+          A.*, U.*
         from
-        auction_article A inner join auction_user U on A.user_no=U.user_no
+          auction_article A inner join auction_user U on A.user_no=U.user_no
         where
-        article_no=#{articleNo}
+          article_no=#{articleNo}
         order by
-        A.article_no
+          A.article_no
     </select>
 
     <update id="update" parameterType="article">
         update auction_article set
-        title=#{title}
-        ,content=#{content}
-        ,photo=#{photo}
-        ,cur_price=#{cur_price}
-        ,end_price=#{end_price}
+          title=#{title}
+          ,content=#{content}
+          ,photo=#{photo}
+          ,cur_price=#{curPrice}
+          ,end_price=#{endPrice}
         where
-        article_no=#{articleNo}
+          article_no=#{articleNo}
     </update>
 
     <update id="updateViewCount" parameterType="int">
         update auction_article set
-        view_count = view_count + 1
+          view_count = view_count + 1
         where
-        article_no=#{articleNo}
+          article_no=#{articleNo}
     </update>
 
     <delete id="delete" parameterType="int">
         delete from auction_article
         where
-        article_no=#{articleNo}
+          article_no=#{articleNo}
     </delete>
 
     <update id="bid" parameterType="article">
         update auction_article set
-        cur_price=#{curPrice}
-        ,bid_count = bid_count + 1
+          cur_price=#{curPrice}
+          ,bid_count = bid_count + 1
         where
-        article_no=#{articleNo}
+          article_no=#{articleNo}
     </update>
 
     <select id="findAuctionArticlesByDate" parameterType="String" resultMap="articleMap">
