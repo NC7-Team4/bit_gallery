@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/article")
@@ -79,30 +80,43 @@ public class ArticleController {
 
   @GetMapping("list")
   public void list(Status status, Model model) throws Exception {
+
+
     model.addAttribute("list", articleService.list(status));
+  }
+
+  @GetMapping("search/{artist}")
+  public String search(@PathVariable String artist, Model model) throws Exception{
+    List<Article> list = articleService.search(artist);
+    if (!list.isEmpty()) {
+      model.addAttribute("list", list);
+    }
+    return "article/search";
   }
 
   @PostMapping("update")
   public String update(Article article, MultipartFile photofile, HttpSession session) throws Exception{
-    User loginUser = (User) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      return "redirect:/auth/form";
-    }
+//    User loginUser = (User) session.getAttribute("loginUser");
+//    if (loginUser == null) {
+//      return "redirect:/auth/form";
+//    }
 
-    Article a = articleService.get(article.getArticleNo());
 
-    if (a == null || a.getWriter().getNo() != loginUser.getNo()) {
-      throw new Exception("작성자만 수정 가능합니다.");
-    } else if (a.getStatus() != Status.expected) {
-      throw new Exception("시작되지 않은 경매만 수정 가능합니다.");
-    }
+//    Article a = articleService.get(article.getArticleNo());
+//    User loginUser = new User(a.getWriter().getNo());
+//
+//    if (a == null || a.getWriter().getNo() != loginUser.getNo()) {
+//      throw new Exception("작성자만 수정 가능합니다.");
+//    } else if (a.getStatus() != Status.expected) {
+//      throw new Exception("시작되지 않은 경매만 수정 가능합니다.");
+//    }
 
     String uploadFileUrl = ncpObjectStorageService.uploadFile(
             "bitgallery", "article/", photofile);
     article.setPhoto(uploadFileUrl);
 
     articleService.update(article);
-    return "redirect:/article/list?status=" + a.getStatus();
+    return "redirect:/article/list?status=" + article.getStatus();
   }
 
   @PostMapping("bid")

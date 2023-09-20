@@ -12,10 +12,11 @@ public interface ArticleService {
 
   Article get(int articleNo) throws Exception;
 
+  List<Article> search(String artist) throws Exception;
+
   int update(Article article) throws Exception;
 
   int delete(int articleNo) throws Exception;
-
 
   int increaseViewCount(int articleNo) throws Exception;
 

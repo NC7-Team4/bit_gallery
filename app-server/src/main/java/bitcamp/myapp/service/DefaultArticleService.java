@@ -29,6 +29,11 @@ public class DefaultArticleService implements ArticleService {
   }
 
   @Override
+  public List<Article> search(String artist) throws Exception {
+    return articleDao.findByArtist(artist);
+  }
+
+  @Override
   public Article get(int articleNo) throws Exception {
     return articleDao.findBy(articleNo);
   }

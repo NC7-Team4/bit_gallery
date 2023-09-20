@@ -62,6 +62,17 @@
             A.article_no
     </select>
 
+    <select id="findByArtist" parameterType="String" resultMap="articleMap">
+        select
+        A.*, U.*
+        from
+        auction_article A inner join auction_user U on A.user_no=U.user_no
+        where
+        artist=#{artist}
+        order by
+        A.article_no
+    </select>
+
     <update id="update" parameterType="article">
         update auction_article set
             title=#{title}
