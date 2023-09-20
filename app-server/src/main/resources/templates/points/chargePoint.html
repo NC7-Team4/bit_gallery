@@ -17,8 +17,8 @@
 <img data-th-if="${session.loginUser.profilePhoto != null}"
      data-th-src="${'http://tyasnlztlptw19619311.cdn.ntruss.com/member/' + session.loginUser.profilePhoto + '?type=f&w=30&h=40&faceopt=true&ttype=jpg'}">
 <br>
-<span id="userId" data-th-text="'회원번호 : ' + ${session.loginUser.no}"></span><br>
-<span id="userName" data-th-text="'회원 : ' + ${session.loginUser.name}+님"></span><br>
+<span id="userName" data-th-text="'이름 : ' + ${session.loginUser.name}+님"></span><br>
+<span id="userPhone" data-th-text="'전화번호 : ' + ${session.loginUser.phone}+님"></span><br>
 <span id="email" data-th-text="'이메일 : ' + ${session.loginUser.email}"></span><br>
 
 
