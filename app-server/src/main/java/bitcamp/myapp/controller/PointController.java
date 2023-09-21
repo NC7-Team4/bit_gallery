@@ -2,6 +2,7 @@ package bitcamp.myapp.controller;
 
 import bitcamp.myapp.service.ArticleService;
 import bitcamp.myapp.service.UserService;
+import bitcamp.myapp.vo.Article;
 import bitcamp.myapp.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -74,13 +75,12 @@ public class PointController {
             @RequestParam("bidAmount") int bidAmount, HttpSession session) throws Exception {
 
 
-        userService.updateUserPoints(userNo, bidAmount);
         articleService.updateArticleStatus(articleNo);
+        userService.updateUserPoints(userNo, bidAmount);
 
         // 세션 정보 업데이트
         User updatedUser = userService.get(Integer.parseInt(userNo)); // 업데이트된 회원 정보 가져오기
         session.setAttribute("loginUser", updatedUser); // 세션 업데이트
-
 
         // 응답 데이터 생성 및 반환
         Map<String, Object> response = new HashMap<>();
@@ -89,7 +89,6 @@ public class PointController {
 
         return ResponseEntity.ok(response);
     }
-
 
 
 }

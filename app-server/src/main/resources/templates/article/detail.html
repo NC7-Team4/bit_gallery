@@ -85,7 +85,9 @@
                     console.log(data);
                     try {
                         var resultData = JSON.parse(JSON.stringify(data));
-                        alert('포인트 업데이트 결과:\n사용자 번호: ' + resultData.userNo + '\n결제 포인트: ' + resultData.bidAmount);
+
+                        alert("포인트 업데이트 결과");
+                        // alert('포인트 업데이트 결과:\n사용자 번호: ' + resultData.userNo + '\n결제 포인트: ' + resultData.bidAmount+ '\n결제 포인트: ' + resultData.articleNo);
                         location.reload();
                     } catch (e) {
                         console.error('JSON 파싱 오류:', e);
@@ -95,12 +97,11 @@
                     console.error('포인트 업데이트 실패', error);
                 }
             });
-        } else {
-            alert('즉시구매를 취소합니다.');
-            console.log(rsp); // 충전 실패 정보 확인
         }
     });
+
 </script>
+
 
 </body>
 </html>
