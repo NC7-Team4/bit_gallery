@@ -13,6 +13,7 @@ public class Exchange implements Serializable {
   private Date createdDate;
   private int exchangePoint;
 
+
   public int getNo() {
     return no;
   }

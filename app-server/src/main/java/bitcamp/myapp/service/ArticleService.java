@@ -23,4 +23,6 @@ public interface ArticleService {
   int increaseViewCount(int articleNo) throws Exception;
 
   int bid(int currentPrice, int bidCount);
+
+  void updateArticleStatus(int articleNo) throws Exception;
 }

@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <title>게시글</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>게시글 목록</title>
+    <!-- 아임포트 라이브러리 추가 -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
 <body>
 
@@ -15,12 +20,12 @@
 <form data-th-if="${article}" enctype='multipart/form-data'>
     <table border='1'>
         <tr><th style='width:120px;'>작품</th>
-        <td style='width:300px;'>
-            <a data-th-href="${'https://kr.object.ncloudstorage.com/bitgallery/article/' + article.photo}"
-               data-th-if="${article.photo}">
-                <img data-th-src="${'http://tyasnlztlptw19619311.cdn.ntruss.com/article/' + article.photo + '?type=f&w=320&h=240&autorotate=false&faceopt=false&ttype=jpg'}">
-            </a>
-        </td></tr>
+            <td style='width:300px;'>
+                <a data-th-href="${'https://kr.object.ncloudstorage.com/bitgallery/article/' + article.photo}"
+                   data-th-if="${article.photo}">
+                    <img data-th-src="${'http://tyasnlztlptw19619311.cdn.ntruss.com/article/' + article.photo + '?type=f&w=320&h=240&autorotate=false&faceopt=false&ttype=jpg'}">
+                </a>
+            </td></tr>
 
         <tr><th>번호</th> <td data-th-text="${article.articleNo}" >-번호-</td></tr>
         <tr><th>제목</th> <td data-th-text="${article.title}" >-제목-</td></tr>
@@ -29,26 +34,73 @@
         <tr><th>현재가격</th> <td data-th-text="${article.curPrice}">-현재가격-</td></tr>
         <tr><th>즉시구매가격</th> <td data-th-text="${article.endPrice}">-즉시구매가격-</td></tr>
 
-
         <tr><th>작성자</th> <td data-th-text="${article.writer.name}">홍길동</td></tr>
         <tr><th>조회수</th> <td data-th-text="${article.viewCount}">34</td></tr>
         <tr><th>등록일</th> <td data-th-text="${#dates.format(article.createdDate, 'yyyy-MM-dd')}">2023-09-14</td></tr>
         <tr><th>시작일</th> <td data-th-text="${#dates.format(article.startDate, 'yyyy-MM-dd hh:mm:ss')}">2023-09-14</td></tr>
         <tr><th>종료일</th> <td data-th-text="${#dates.format(article.endDate, 'yyyy-MM-dd hh:mm:ss')}">2023-09-14</td></tr>
         <tr><th>입찰횟수</th> <td data-th-text="${article.bidCount}">34</td></tr>
-        </div>
-        </td></tr>
     </table>
+    <div>
+        <button class="btn btn-primary" id="purchaseButton">즉시구매</button> <!-- 즉시구매 버튼 추가 -->
     </div>
     <div>
         <a data-th-href="@{'/article/update/' + ${article.articleNo}}">변경</a>
         <a data-th-href="@{/article/delete(articleNo=${article.articleNo})}">삭제</a>
         <a data-th-href="@{/article/list(status=${article.status})}">목록</a>
+        <span id="endPrice" data-th-text="'즉시구매가격 : ' + ${article.endPrice}+원"></span>
+        <span id="userPoints" data-th-text="'보유포인트 : ' + ${session.loginUser.point} + '원'"></span>
     </div>
-
 </form>
 
 <div data-th-replace="footer :: footer"></div>
+
+<script>
+    document.getElementById('purchaseButton').addEventListener('click', function() {
+        var purchasePrice = parseInt(document.getElementById('endPrice').textContent.replace(/\D/g, '')); // 즉시구매 가격
+        var userPoints = parseInt(document.getElementById('userPoints').textContent.replace(/\D/g, '')); // 보유 포인트를 가져옴
+        var userNo = [[${session.loginUser.no}]]; // 유저 번호
+        var articleNo = [[${article.articleNo}]]; // 게시글 번호
+
+        // 알림창으로 즉시구매 정보 표시
+        var confirmation = confirm('즉시구매가격: ' + purchasePrice + '\n현재 포인트: ' + userPoints + '\n\n정말 즉시구매 하시겠습니까?');
+
+        if (confirmation) { // 확인을 눌렀을 때만 AJAX 요청 보냄
+            if (userPoints < purchasePrice) {
+                alert('보유 포인트가 부족합니다'); // 보유 포인트가 즉시구매 가격보다 작은 경우 알림
+                return;
+            }
+
+            // AJAX 요청
+            $.ajax({
+                url: '/purchasepoint', // 즉시구매 API 엔드포인트 URL
+                method: 'POST',
+                data: {
+                    userNo: userNo, // 사용자 번호
+                    articleNo: articleNo, // 게시글 번호
+                    bidAmount: purchasePrice, // 즉시구매 가격
+                },
+
+                success: function (data) {
+                    console.log(data);
+                    try {
+                        var resultData = JSON.parse(JSON.stringify(data));
+                        alert('포인트 업데이트 결과:\n사용자 번호: ' + resultData.userNo + '\n결제 포인트: ' + resultData.bidAmount);
+                        location.reload();
+                    } catch (e) {
+                        console.error('JSON 파싱 오류:', e);
+                    }
+                },
+                error: function (error) {
+                    console.error('포인트 업데이트 실패', error);
+                }
+            });
+        } else {
+            alert('즉시구매를 취소합니다.');
+            console.log(rsp); // 충전 실패 정보 확인
+        }
+    });
+</script>
 
 </body>
 </html>

@@ -26,4 +26,7 @@ public interface ArticleDao {
   int updateViewCount(int articleNo);
 
   int bid(@Param("current_price") int currentPrice, @Param("bid_count") int bidCount);
+
+  void updateArticleStatus(@Param("articleNo") int articleNo);
+
 }

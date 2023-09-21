@@ -129,4 +129,11 @@
         order by
         a.article_no desc
     </select>
+
+    <update id="updateArticleStatus" parameterType="int">
+        update auction_article
+        set status = 'end'
+        where article_no = #{articleNo}
+    </update>
+
 </mapper>

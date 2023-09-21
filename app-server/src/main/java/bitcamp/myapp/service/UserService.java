@@ -18,4 +18,6 @@ public interface UserService {
   void updateUserPoints(String userNo, int point);
 
   void chargeUserPoints(String userNo, int point);
+
+
 }

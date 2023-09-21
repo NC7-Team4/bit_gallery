@@ -70,4 +70,9 @@ public class DefaultArticleService implements ArticleService {
   public int bid(int currentPrice, int bidCount) {
     return articleDao.bid(currentPrice, bidCount);
   }
+
+  @Override
+  public void updateArticleStatus(int articleNo) throws Exception {
+      articleDao.updateArticleStatus(articleNo);
+  }
 }
