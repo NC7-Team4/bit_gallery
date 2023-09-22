@@ -1,43 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>포인트 충전 및 입찰</title>
+
+
+
     <!-- 아임포트 라이브러리 추가 -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mypage.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/history.css}">
+    <script th:src="@{/js/mypage.js}"></script>
+
+
+    <!-- 아래의 코드를 추가 -->
+    <script>
+        // 냐옹 버튼 클릭 시 푸터를 보이게/숨기게 하는 함수
+        function togglePointDiv() {
+            var pointDiv = document.getElementById('pointDiv');
+            var footer = document.getElementById('footer');
+
+            if (pointDiv.style.display === 'none') {
+                pointDiv.style.display = 'flex';
+                footer.style.display = 'block'; // 푸터를 보이게 함
+            } else {
+                pointDiv.style.display = 'none';
+                footer.style.display = 'none'; // 푸터를 숨김
+            }
+        }
+    </script>
+
+
+    <style>
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #f5f5f5;
+            padding: 10px;
+            text-align: center;
+        }
+        a {
+        color: #000;
+        text-decoration: none;
+        text-shadow: 2px 2px 4px rgba(135, 206, 235, 0.5);
+        }
+    </style>
+
+
+
 </head>
 <body>
 <div data-th-replace="header :: header"></div>
-<h2>마이페이지</h2>
+<!-- 사용자 정보 패널 -->
+<div class="card card-container">
+    <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+    <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+    <p id="profile-name" class="profile-name-card">
+        <span id="userName" data-th-text="${session.loginUser.name}+님 + ', 안녕하세요.'"></span><br>
+    </p>
 
-<img data-th-if="${session.loginUser.profilePhoto == null}" style='height:40px' src='/images/avatar.png'>
-<img data-th-if="${session.loginUser.profilePhoto != null}"
-     data-th-src="${'http://tyasnlztlptw19619311.cdn.ntruss.com/member/' + session.loginUser.profilePhoto + '?type=f&w=30&h=40&faceopt=true&ttype=jpg'}">
-<br>
-<span id="userId" data-th-text="'회원번호 : ' + ${session.loginUser.no}"></span><br>
-<span id="userName" data-th-text="'회원 : ' + ${session.loginUser.name}+님"></span><br>
-<span id="email" data-th-text="'이메일 : ' + ${session.loginUser.email}"></span><br>
+    <br>
+    <span id="userId" data-th-text="'회원번호 : ' + ${session.loginUser.no}" style="display: block; text-align: center;"></span>
+    <span id="email" data-th-text="'이메일 : ' + ${session.loginUser.email}" style="display: block; text-align: center;"></span>
+    <span id="phone" data-th-text="'핸드폰번호 : ' + ${session.loginUser.phone}" style="display: block; text-align: center;"></span><br>
 
 
-<!-- 포인트 충전 입력 필드 -->
-<h2>포인트 충전</h2>
-<input type="text" id="rechargeAmount" placeholder="충전할 포인트 입력" onkeyup="formatCurrency(this)">
-<button id="rechargeButton">포인트 충전</button>
+        <!-- 포인트 충전 입력 필드 -->
+    <div style="display: flex; align-items: center;">
+        <input type="text" id="rechargeAmount" style="text-align: center; font-size: 12px; width: 50%; margin-left:50px;" placeholder="충전할 포인트 입력" onkeyup="formatCurrency(this)">
+        <button id="rechargeButton" style="font-size: 12px;">충전</button>
+    </div>
 
-<!-- 입찰 금액 입력 필드 -->
-<h2>입찰</h2>
-<input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
-<button id="bidButton">입찰</button>
 
-<!-- 결과 표시를 위한 엘리먼트 -->
-<div id="result"></div>
 
-<!-- 세션에서 사용자 포인트를 HTML에 포함 -->
-<span id="userPoints" data-th-text="'보유포인트 : ' + ${session.loginUser.point}+원"></span>
 
+        <!-- 결과 표시를 위한 엘리먼트 -->
+        <div id="result"></div>
+
+        <!-- 세션에서 사용자 포인트를 HTML에 포함 -->
+        <span id="userPoints" style="text-align: center; font-size: 11px;" data-th-text="'보유포인트 : ' + ${session.loginUser.point}+원"></span>
+
+
+</div><!-- /card-container -->
+
+<button onclick="togglePointDiv()">냐옹</button>
+
+
+<div id="pointDiv" style="display: none; flex-direction: column; align-items: center; justify-content: center; height: 50vh;">
+    <section id="tabs" class="project-tab">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">환전 내역</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">입찰 내역</a>
+                        </div>
+                    </nav>
+                        <div class="tab-content" style="width: 150%; margin: 0 auto; text-align: center;" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <table class="table" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#">Work 1</a></td>
+                                    <td>Doe</td>
+                                    <td>john@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Work 2</a></td>
+                                    <td>Moe</td>
+                                    <td>mary@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Work 3</a></td>
+                                    <td>Dooley</td>
+                                    <td>july@example.com</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <table class="table" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Employer</th>
+                                    <th>Time</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#">Work 1</a></td>
+                                    <td>Doe</td>
+                                    <td>john@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Work 2</a></td>
+                                    <td>Moe</td>
+                                    <td>mary@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Work 3</a></td>
+                                    <td>Dooley</td>
+                                    <td>july@example.com</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <table class="table" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Contest Name</th>
+                                    <th>Date</th>
+                                    <th>Award Position</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#">Work 1</a></td>
+                                    <td>Doe</td>
+                                    <td>john@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Work 2</a></td>
+                                    <td>Moe</td>
+                                    <td>mary@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Work 3</a></td>
+                                    <td>Dooley</td>
+                                    <td>july@example.com</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+</div>
 
 <!-- 포인트 충전 및 입찰 스크립트 -->
 <script>
@@ -163,6 +323,7 @@
     // }
 
 </script>
-<div data-th-replace="footer :: footer"></div>
+
 </body>
+
 </html>
