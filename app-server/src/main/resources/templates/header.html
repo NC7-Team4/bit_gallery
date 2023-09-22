@@ -20,7 +20,7 @@
              data-th-src="${'http://tyasnlztlptw19619311.cdn.ntruss.com/member/' + session.loginUser.profilePhoto + '?type=f&w=30&h=40&faceopt=true&ttype=jpg'}">
         <span data-th-text="'&quot;' + ${session.loginUser.name} + '&quot;님,'"></span>
 
-        <a data-th-href="@{/chargePoint}" data-th-text="'보유포인트 : ' + ${session.loginUser.point}" href="#">보유포인트</a>
+        <a data-th-href="@{/points/chargePoint}" data-th-text="'보유포인트 : ' + ${session.loginUser.point}" href="#">보유포인트</a>
         <a href='/auth/logout'>로그아웃</a>
     </div>
 </div>

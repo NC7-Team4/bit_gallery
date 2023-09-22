@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset='UTF-8'>
-    <title>게시글</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>게시글 목록</title>
+    <!-- 아임포트 라이브러리 추가 -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
+
 <body>
 
 <div data-th-replace="header :: header"></div>
@@ -11,7 +18,6 @@
 <h1>게시글</h1>
 <h1>게시글</h1>
 <h1>게시글</h1>
-
 
 <p data-th-unless="${article}">해당 번호의 게시글이 없습니다!</p>
 
@@ -52,7 +58,6 @@
             <td data-th-text="${article.endPrice}">-즉시구매가격-</td>
         </tr>
 
-
         <tr>
             <th>작성자</th>
             <td data-th-text="${article.writer.name}">홍길동</td>
@@ -86,68 +91,139 @@
             <th>입찰횟수</th>
             <td data-th-text="${article.bidCount}">34</td>
         </tr>
-        </div>
-        </td></tr>
     </table>
-    </div>
-
-    <div>
-        <p>
-            <a data-th-if="${#strings.equals(article.status, 'progress')}"
-               data-th-href="@{/article//(articleNo=${article.articleNo},currentPage=${currentPage})}">입찰</a>
-            <a data-th-if="${#strings.equals(article.status, 'progress')}"
-               data-th-href="@{'/'}">구매</a>
-        </p>
-    </div>
-
-    <div>
-        <p>
-            <a data-th-if="${#strings.equals(article.status, 'expected')}"
-               data-th-href="@{/article/update/(articleNo=${article.articleNo},currentPage=${currentPage})}">변경</a>
-            <a data-th-if="${#strings.equals(article.status, 'expected')}"
-               data-th-href="@{/article/delete(articleNo=${article.articleNo},currentPage=${currentPage})}">삭제</a>
-
-            <a data-th-if="${article.path} == 0" data-th-href="@{/article/list(status=${article.status},currentPage=${currentPage})}">목록</a>
-            <a data-th-if="${article.path} == 1" data-th-href="@{/article/list(artist=${article.artist},currentPage=${currentPage})}">목록</a>
-        </p>
-    </div>
 </form>
 
+<div>
+    <p>
+        <a data-th-if="${#strings.equals(article.status, 'progress')}"
+           data-th-href="@{/article/detail(articleNo=${article.articleNo}, path=0, currentPage=${currentPage})}">입찰</a>
+
+
+        <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
+            <button class="btn btn-primary">즉시구매</button>
+        </a>
+    </p>
+</div>
+
+<div>
+    <p>
+        <a data-th-if="${#strings.equals(article.status, 'expected')}"
+           data-th-href="@{/article/update/(articleNo=${article.articleNo},currentPage=${currentPage})}">변경</a>
+        <a data-th-if="${#strings.equals(article.status, 'expected')}"
+           data-th-href="@{/article/delete(articleNo=${article.articleNo},currentPage=${currentPage})}">삭제</a>
+
+        <a data-th-if="${article.path} == 0"
+           data-th-href="@{/article/list(status=${article.status},currentPage=${currentPage})}">목록</a>
+        <a data-th-if="${article.path} == 1"
+           data-th-href="@{/article/list(artist=${article.artist},currentPage=${currentPage})}">목록</a>
+    </p>
+</div>
+<div>
+    <!--    <span id="endPrice" data-th-text="'즉시구매가격 : ' + ${article.endPrice}+원"></span>-->
+    <!--    <span id="userPoints" data-th-text="'보유포인트 : ' + ${session.loginUser.point} + '원'"></span>-->
+</div>
+
+<!-- HTML 태그에 삽입 -->
+<div id="userNo" data-th-text="${session.loginUser.no}" style="display: none;"></div>
+<div id="articleNo" data-th-text="${article.articleNo}" style="display: none;"></div>
+<div id="endPrice" data-th-text="${article.endPrice}" style="display: none;"></div>
+<div id="userPoints" data-th-text="${session.loginUser.point}" style="display: none;"></div>
+<div id="currentPage" data-th-text="${currentPage}" style="display: none;"></div>
+<div id="path" data-th-text="0" style="display: none;"></div>
+</form>
 
 <div data-th-replace="footer :: footer"></div>
+<script>
 
-</body>
-</html>
+    document.getElementById('purchaseButton').addEventListener('click', () => {
+        var purchasePrice = parseInt(
+            document.getElementById('endPrice').textContent.replace(/\D/g, '')
+        ); // 즉시구매 가격
+        var userPoints = parseInt(
+            document.getElementById('userPoints').textContent.replace(/\D/g, '')
+        ); // 보유 포인트를 가져옴
+        var userNo = [[${ session.loginUser.no }]]; // 유저 번호
+        var articleNo = [[${ article.articleNo }]]; // 게시글 번호
 
+        // 알림창으로 즉시구매 정보 표시
+        var confirmation = confirm(
+            '즉시구매가격: ' + purchasePrice + '\n현재 포인트: ' + userPoints + '\n\n정말 즉시구매 하시겠습니까?'
+        );
+
+        function redirectToArticleDetail() {
+            var articleNo = document.getElementById("articleNo").textContent;
+            var path = document.getElementById("path").textContent;
+            var currentPage = document.getElementById("currentPage").textContent;
+            var articleDetailURL = '/article/detail?articleNo=' + articleNo + '&path=' + path + '&currentPage=' + currentPage;
+            window.location.href = articleDetailURL;
+        }
+
+
+        if (confirmation) {
+            if (userPoints < purchasePrice) {
+                return alert("포인트가 부족합니다.");
+            }
+
+            // AJAX 요청
+            $.ajax({
+                url: '/points/purchasePoint', // 즉시구매 API 엔드포인트 URL
+                method: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                async: false, // 동기적으로 서버응답을 처리.
+                data: JSON.stringify({
+                    userNo: userNo, // 사용자 번호
+                    articleNo: articleNo, // 게시글 번호
+                    bidAmount: purchasePrice, // 즉시구매 가격
+                }),
+                success: (response) => {
+                    console.log(response);
+                    if (response === true) {
+                        alert("즉시구매가 완료되었습니다.");
+                        redirectToArticleDetail();
+
+
+                    } else {
+                        alert("즉시구매가 실패했습니다."); // 실패 처리
+                    }
+                }
+            });
+        }
+    });
+</script>
 <SCRIPT LANGUAGE="JavaScript">
     <!--
-    var tid=0;
+    var tid = 0;
     var period = parseInt([[${article.remainTime}]]);
 
-    function auctionClock()
-    {
+    function auctionClock() {
         period -= 1;
-        if(period<0)
-        {
-            if(tid) clearTimeout(tid);
-            window.setTimeout("location.reload();",1000);
+        if (period < 0) {
+            if (tid) clearTimeout(tid);
+            window.setTimeout("location.reload();", 1000);
             return;
         }
 
         strTime = '';
-        var day=parseInt(period/(24*60*60));
-        var hour=parseInt((period/60/60)%24);
-        var minute=parseInt((period/60)%60);
-        var second=parseInt(period%60);
+        var day = parseInt(period / (24 * 60 * 60));
+        var hour = parseInt((period / 60 / 60) % 24);
+        var minute = parseInt((period / 60) % 60);
+        var second = parseInt(period % 60);
 
-        if(day>0) strTime = day + '일 '
+        if (day > 0) strTime = day + '일 '
         strTime = strTime + hour + '시간 ' + minute + '분 ' + second + '초';
 
         var p = document.getElementById("RemainPeriod");
-        if(p) p.innerHTML = strTime ;
-        if(tid) clearTimeout(tid);
-        tid=window.setTimeout("auctionClock()",1000);
+        if (p) p.innerHTML = strTime;
+        if (tid) clearTimeout(tid);
+        tid = window.setTimeout("auctionClock()", 1000);
     }
-        if(period>0) auctionClock();
+
+    if (period > 0) auctionClock();
     //-->
 </SCRIPT>
+
+</body>
+
+</html>

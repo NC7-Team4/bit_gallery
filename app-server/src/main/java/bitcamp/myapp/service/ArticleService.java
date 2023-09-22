@@ -23,7 +23,11 @@ public interface ArticleService {
 
   int increaseViewCount(int articleNo) throws Exception;
 
+  int updateArticleBidNum(int articleNo) throws Exception;
+
   int bid(Article article);
 
   int buy(Article article);
+
+  void updateArticleStatus(int articleNo) throws Exception;
 }

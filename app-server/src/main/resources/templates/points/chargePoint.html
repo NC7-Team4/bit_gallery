@@ -17,8 +17,8 @@
 <img data-th-if="${session.loginUser.profilePhoto != null}"
      data-th-src="${'http://tyasnlztlptw19619311.cdn.ntruss.com/member/' + session.loginUser.profilePhoto + '?type=f&w=30&h=40&faceopt=true&ttype=jpg'}">
 <br>
-<span id="userId" data-th-text="'회원번호 : ' + ${session.loginUser.no}"></span><br>
-<span id="userName" data-th-text="'회원 : ' + ${session.loginUser.name}+님"></span><br>
+<span id="userName" data-th-text="'이름 : ' + ${session.loginUser.name}+님"></span><br>
+<span id="userPhone" data-th-text="'전화번호 : ' + ${session.loginUser.phone}+님"></span><br>
 <span id="email" data-th-text="'이메일 : ' + ${session.loginUser.email}"></span><br>
 
 
@@ -83,7 +83,7 @@
 
                 // AJAX 요청을 서버로 보냄
                 $.ajax({
-                    url: '/chargepoint', // 포인트 업데이트 API 엔드포인트 URL
+                    url: '/points/chargePoint', // 포인트 업데이트 API 엔드포인트 URL
                     method: 'POST',
                     data: {
                         userNo: userNo, // 사용자 번호
@@ -135,7 +135,7 @@
 
         // AJAX 요청을 서버로 보냄
         $.ajax({
-            url: '/updatepoint', // 포인트 업데이트 API 엔드포인트 URL
+            url: '/points/updatePoint', // 포인트 업데이트 API 엔드포인트 URL
             method: 'POST',
             data: {
                 userNo: userNo, // 사용자 번호
@@ -156,11 +156,7 @@
                 console.error('포인트 업데이트 실패', error);
             }
         });
-
-        // 입찰 로직을 여기에 추가
-        // 사용자의 입찰을 처리하고, 결과를 표시하거나 저장할 수 있습니다.
     });
-    // }
 
 </script>
 <div data-th-replace="footer :: footer"></div>
