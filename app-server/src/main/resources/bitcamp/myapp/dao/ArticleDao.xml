@@ -101,6 +101,15 @@
         article_no=#{articleNo}
     </update>
 
+
+    <update id="updateArticleBidPoint" parameterType="map">
+        update auction_article set
+        cur_price = #{bidAmount}
+        where
+        article_no=#{articleNo}
+    </update>
+
+
     <delete id="delete" parameterType="int">
         delete from auction_article
         where

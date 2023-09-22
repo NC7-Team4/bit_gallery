@@ -25,9 +25,12 @@ public interface ArticleService {
 
   int updateArticleBidNum(int articleNo) throws Exception;
 
+  void updateArticleBidPoint(int articleNo, int bidAmount);
+
   int bid(Article article);
 
   int buy(Article article);
 
   void updateArticleStatus(int articleNo) throws Exception;
+
 }

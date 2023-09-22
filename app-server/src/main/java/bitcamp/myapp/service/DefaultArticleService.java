@@ -127,6 +127,11 @@ public class DefaultArticleService implements ArticleService {
   }
 
   @Override
+  public void updateArticleBidPoint(int articleNo, int bidAmount) {
+    articleDao.updateArticleBidPoint(articleNo,bidAmount);
+  }
+
+  @Override
   public void updateArticleStatus(int articleNo) throws Exception {
     articleDao.updateArticleStatus(articleNo);
   }

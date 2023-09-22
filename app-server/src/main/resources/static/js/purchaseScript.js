@@ -1,28 +1,25 @@
 // HTML 요소 찾기
 var userNoElement = document.getElementById('userNo');
+var userPointElement = document.getElementById('userPoint');
 var articleNoElement = document.getElementById('articleNo');
 var currentPageElement = document.getElementById('currentPage');
 var pathElement = document.getElementById('path');
+var endPriceElement = document.getElementById('endPrice');
 
 
 // 가져온 정보에서 필요한 값을 추출
 var userNo = parseInt(userNoElement.textContent);
+var userPoint = parseInt(userPointElement.textContent);
 var articleNo = parseInt(articleNoElement.textContent);
 var currentPage = parseInt(currentPageElement.textContent);
 var path = parseInt(pathElement.textContent);
+var endPrice = parseInt(endPriceElement.textContent);
 
 
 document.getElementById('purchaseButton').addEventListener('click', () => {
-    var purchasePrice = parseInt(
-        document.getElementById('endPrice').textContent.replace(/\D/g, '')
-    ); // 즉시구매 가격
-    var userPoints = parseInt(
-        document.getElementById('userPoints').textContent.replace(/\D/g, '')
-    ); // 보유 포인트를 가져옴
-
     // 알림창으로 즉시구매 정보 표시
     var confirmation = confirm(
-        '즉시구매가격: ' + purchasePrice + '\n현재 포인트: ' + userPoints + '\n\n정말 즉시구매 하시겠습니까?'
+        '즉시구매가격: ' + endPrice + '\n현재 포인트: ' + userPoint + '\n\n정말 즉시구매 하시겠습니까?'
     );
 
 
@@ -34,7 +31,7 @@ document.getElementById('purchaseButton').addEventListener('click', () => {
 
 
     if (confirmation) {
-        if (userPoints < purchasePrice) {
+        if (userPoint < endPrice) {
             return alert("포인트가 부족합니다.");
         }
 
@@ -48,7 +45,7 @@ document.getElementById('purchaseButton').addEventListener('click', () => {
             data: JSON.stringify({
                 userNo: userNo, // 사용자 번호
                 articleNo: articleNo, // 게시글 번호
-                bidAmount: purchasePrice, // 즉시구매 가격
+                bidAmount: endPrice, // 즉시구매 가격
             }),
             success: (response) => {
                 console.log(response);
