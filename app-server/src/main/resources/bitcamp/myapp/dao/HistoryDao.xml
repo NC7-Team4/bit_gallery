@@ -8,7 +8,7 @@
         <result column="price" property="price"/>
         <result column="bid_date" property="bidDate"/>
         <result column="win_bid" property="winBid"/>
-        
+
         <association property="bidder" javaType="user">
             <id column="user_no" property="no"/>
             <result column="authority" property="authority"/>
@@ -49,12 +49,12 @@
 
     <select id="list" parameterType="int">
         select
-            H.*, U.*, A.*
+        H.*, U.*, A.*
         from
         auction_history H
-            inner join auction_user U on H.user_no=U.user_no
-            inner join auction_article A on H.article_no=A.article_no
+        inner join auction_user U on H.user_no=U.user_no
+        inner join auction_article A on H.article_no=A.article_no
         where
-            H.user_no=#{userNo}
+        H.user_no=#{userNo}
     </select>
 </mapper>
