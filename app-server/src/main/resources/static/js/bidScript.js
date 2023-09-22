@@ -40,6 +40,11 @@ document.getElementById('bidButton').addEventListener('click', function () {
         return;
     }
 
+    if (cuPrice < bidAmount) {
+        alert('즉시 구매가격 보다 입찰금액이 높습니다.'); // 보유 포인트가 입찰 금액보다 작은 경우 알림
+        return;
+    }
+
     // AJAX 요청을 서버로 보냄
     // 결제검증 (DB의 최신값을 불러와서 요청한 입찰금액과 맞는 지 확인하고 결제를 진행함.)
     $.ajax({
