@@ -8,7 +8,7 @@ public class User implements Serializable {
 
 
   private int no;
-  private Authority authority;
+  private Authority authority = Authority.USER;
   private String email;
   private String password;
   private String name;
