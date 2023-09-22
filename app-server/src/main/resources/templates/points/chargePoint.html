@@ -27,10 +27,6 @@
 <input type="text" id="rechargeAmount" placeholder="충전할 포인트 입력" onkeyup="formatCurrency(this)">
 <button id="rechargeButton">포인트 충전</button>
 
-<!-- 입찰 금액 입력 필드 -->
-<!--<h2>입찰</h2>-->
-<!--<input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">-->
-<!--<button id="bidButton">입찰</button>-->
 
 <!-- 결과 표시를 위한 엘리먼트 -->
 <div id="result"></div>
@@ -40,10 +36,11 @@
 <div id="userPoint" data-th-text="${session.loginUser.point}" style="display: none;"></div>
 
 
-</script>
 <!-- 포인트 충전 및 입찰 스크립트 -->
 <script src="/js/chargeScript.js"></script>
 <!--<script src="/js/bidScript.js"></script>-->
 <div data-th-replace="footer :: footer"></div>
 </body>
 </html>
+
+

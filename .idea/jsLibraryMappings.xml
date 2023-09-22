@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$" libraries="{bootstrap, jquery-1.11.1}" />
+    <file url="file://$PROJECT_DIR$/app-server" libraries="{bootstrap, jquery-1.11.1}" />
+    <file url="file://$PROJECT_DIR$/app-server/build/generated/sources/annotationProcessor/java/main" libraries="{bootstrap, jquery-1.11.1}" />
+    <file url="file://$PROJECT_DIR$/app-server/src/main" libraries="{bootstrap, jquery-1.11.1}" />
+    <file url="file://$PROJECT_DIR$/app-server/src/test" libraries="{bootstrap, jquery-1.11.1}" />
+  </component>
+</project>

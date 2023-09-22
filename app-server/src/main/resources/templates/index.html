@@ -124,7 +124,7 @@
                     <a href='/auth/form'>로그인</a>
                 </li>
                 <li data-th-if="${session.loginUser != null}" style="display: flex; align-items: center;">
-                    <a data-th-href="@{/chargePoint}" style="margin-right: 10px; cursor: pointer;">
+                    <a data-th-href="@{/points/chargePoint}" style="margin-right: 10px; cursor: pointer;">
                         <span data-th-text="'&quot;' + ${session.loginUser.name} + '&quot;님,&nbsp 보유 포인트 : ' + ${session.loginUser.point}" style="text-decoration: none; cursor: pointer;"></span>
                     </a>
 
