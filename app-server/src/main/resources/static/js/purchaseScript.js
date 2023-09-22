@@ -1,3 +1,17 @@
+// HTML 요소 찾기
+var userNoElement = document.getElementById('userNo');
+var articleNoElement = document.getElementById('articleNo');
+var currentPageElement = document.getElementById('currentPage');
+var pathElement = document.getElementById('path');
+
+
+// 가져온 정보에서 필요한 값을 추출
+var userNo = parseInt(userNoElement.textContent);
+var articleNo = parseInt(articleNoElement.textContent);
+var currentPage = parseInt(currentPageElement.textContent);
+var path = parseInt(pathElement.textContent);
+
+
 document.getElementById('purchaseButton').addEventListener('click', () => {
     var purchasePrice = parseInt(
         document.getElementById('endPrice').textContent.replace(/\D/g, '')
@@ -10,19 +24,6 @@ document.getElementById('purchaseButton').addEventListener('click', () => {
     var confirmation = confirm(
         '즉시구매가격: ' + purchasePrice + '\n현재 포인트: ' + userPoints + '\n\n정말 즉시구매 하시겠습니까?'
     );
-
-    // HTML 요소 찾기
-    var userNoElement = document.getElementById('userNo');
-    var articleNoElement = document.getElementById('articleNo');
-    var currentPageElement = document.getElementById('currentPage');
-    var pathElement = document.getElementById('path');
-
-
-// 가져온 정보에서 필요한 값을 추출
-    var userNo = parseInt(userNoElement.textContent);
-    var articleNo = parseInt(articleNoElement.textContent);
-    var currentPage = parseInt(currentPageElement.textContent);
-    var path = parseInt(pathElement.textContent);
 
 
     // redirectToArticleDetail 함수 정의
@@ -54,8 +55,6 @@ document.getElementById('purchaseButton').addEventListener('click', () => {
                 if (response === true) {
                     alert("즉시구매가 완료되었습니다.");
                     redirectToArticleDetail();
-
-
                 } else {
                     alert("즉시구매가 실패했습니다."); // 실패 처리
                 }

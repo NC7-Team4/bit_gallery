@@ -15,9 +15,8 @@
 
 <div data-th-replace="header :: header"></div>
 
-<h1>게시글</h1>
-<h1>게시글</h1>
-<h1>게시글</h1>
+<h1 th:text="${#strings.equals(article.status, 'progress')} ? '진행 중인 경매' : (${#strings.equals(article.status, 'expected')} ? '진행 예정 경매' : (${#strings.equals(article.status, 'end')} ? '종료된 경매' : article.title))">게시글</h1>
+
 
 <p data-th-unless="${article}">해당 번호의 게시글이 없습니다!</p>
 
@@ -96,8 +95,13 @@
 
 <div>
     <p>
-        <a data-th-if="${#strings.equals(article.status, 'progress')}"
-           data-th-href="@{/article/detail(articleNo=${article.articleNo}, path=0, currentPage=${currentPage})}">입찰</a>
+<!--        <a data-th-if="${#strings.equals(article.status, 'progress')}"-->
+<!--           data-th-href="@{/article/detail(articleNo=${article.articleNo}, path=0, currentPage=${currentPage})}">입찰</a>-->
+
+        <a data-th-if="${#strings.equals(article.status, 'progress')}">
+            <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
+            <button id="bidButton" class="btn btn-primary">입찰</button>
+        </a>
 
 
         <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
@@ -119,6 +123,7 @@
            data-th-href="@{/article/list(artist=${article.artist},currentPage=${currentPage})}">목록</a>
     </p>
 </div>
+
 <!-- HTML 태그에 삽입 -->
 <div id="userNo" data-th-text="${session.loginUser.no}" style="display: none;"></div>
 <div id="articleNo" data-th-text="${article.articleNo}" style="display: none;"></div>
@@ -127,11 +132,17 @@
 <div id="currentPage" data-th-text="${currentPage}" style="display: none;"></div>
 <div id="path" data-th-text="0" style="display: none;"></div>
 <div id="period" data-th-text="${(article.remainTime)}" style="display: none;"></div>
+<div id="userPoint" data-th-text="${session.loginUser.point}" style="display: none;"></div>
+<div id="cuPrice" data-th-text="${article.curPrice}" style="display: none;"></div>
 </form>
 <div data-th-replace="footer :: footer"></div>
+
 <!-- 즉시구매 스크립트 -->
 <script src="/js/purchaseScript.js"></script>
 <!-- 경매시간 스크립트 -->
-<script src="/js/auctionClock.js"></script>
+<!--<script src="/js/auctionClock.js"></script>-->
+<!-- 입찰 스크립트 -->
+<script src="/js/bidScript.js"></script>
+
 </body>
 </html>

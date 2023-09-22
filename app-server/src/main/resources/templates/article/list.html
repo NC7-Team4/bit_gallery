@@ -19,7 +19,8 @@
 
 <div data-th-replace="header :: header"></div>
 
-<h1>게시글 목록</h1>
+<h1 th:text="${status == 'progress' ? '진행 중인 경매' : (status == 'expected' ? '진행 예정 경매' : (status == 'end' ? '종료된 경매' : '게시글 목록'))}"></h1>
+
 <div style='margin:5px;'>
     <a data-th-href="@{/article/form(currentPage=${currentPage})}">새 글</a>
 </div>
