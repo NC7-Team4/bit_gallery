@@ -104,12 +104,12 @@
 
 <div data-th-replace="header :: header"></div>
 
+<h1 th:text="${#strings.equals(article.status, 'progress')} ? '진행 중인 경매' : (${#strings.equals(article.status, 'expected')} ? '진행 예정 경매' : (${#strings.equals(article.status, 'end')} ? '종료된 경매' : article.title))">게시글</h1>
 
 
 <p data-th-unless="${article}">해당 번호의 게시글이 없습니다!</p>
 
 <form data-th-if="${article}" enctype='multipart/form-data'>
-    <h1 th:text="${#strings.equals(article.status, 'progress')} ? '진행 중인 경매' : (${#strings.equals(article.status, 'expected')} ? '진행 예정 경매' : (${#strings.equals(article.status, 'end')} ? '종료된 경매' : article.title))">게시글</h1>
     <table border='1'>
         <tr>
             <th style='width:120px;'>작품</th>
@@ -180,22 +180,6 @@
             <td data-th-text="${article.bidCount}">34</td>
         </tr>
     </table>
-    <br>
-    <div class="d-flex align-items-center">
-        <a data-th-if="${#strings.equals(article.status, 'progress')}">
-            <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
-            <button id="bidButton" class="btn btn-primary">입찰</button>
-        </a>
-
-        <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
-            <button class="btn btn-primary">즉시구매</button>
-        </a>
-    </div>
-
-    <a data-th-if="${article.path} == 0"
-       data-th-href="@{/article/list(status=${article.status},currentPage=${currentPage})}">목록</a>
-    <a data-th-if="${article.path} == 1"
-       data-th-href="@{/article/list(artist=${article.artist},currentPage=${currentPage})}">목록</a>
 </form>
 
 <div>
@@ -203,6 +187,15 @@
         <!--        <a data-th-if="${#strings.equals(article.status, 'progress')}"-->
         <!--           data-th-href="@{/article/detail(articleNo=${article.articleNo}, path=0, currentPage=${currentPage})}">입찰</a>-->
 
+        <a data-th-if="${#strings.equals(article.status, 'progress')}">
+            <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
+            <button id="bidButton" class="btn btn-primary">입찰</button>
+        </a>
+
+
+        <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
+            <button class="btn btn-primary">즉시구매</button>
+        </a>
     </p>
 </div>
 
@@ -213,7 +206,10 @@
         <a data-th-if="${#strings.equals(article.status, 'expected')}"
            data-th-href="@{/article/delete(articleNo=${article.articleNo},currentPage=${currentPage})}">삭제</a>
 
-
+        <a data-th-if="${article.path} == 0"
+           data-th-href="@{/article/list(status=${article.status},currentPage=${currentPage})}">목록</a>
+        <a data-th-if="${article.path} == 1"
+           data-th-href="@{/article/list(artist=${article.artist},currentPage=${currentPage})}">목록</a>
     </p>
 </div>
 
