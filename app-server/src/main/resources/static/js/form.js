@@ -1,13 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // 사용자 포인트를 가져오고 초기화
-    var userPoints = parseInt(document.body.getAttribute("data-user-points"), 10);
-
-    // 선택된 은행 및 입력란 엘리먼트 초기화
-    var selectedBank = "카카오뱅크";
+    // 사용자 포인트 및 은행
+    var userPoints = parseInt(document.getElementById("userPoints").textContent.replace(/\D/g, ''), 10); // 수정
+    var selectedBank = "선택";
     var accountNumberInput = document.getElementById("accountNumber");
     var bankSelect = document.getElementById("bank");
-    var exchangePointInput = document.getElementById("exchangePoint");
 
     // 은행 선택 항목 변경 이벤트를 감지하고 은행에 따라 하이픈 규칙 업데이트
     bankSelect.addEventListener("change", function () {
@@ -27,14 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
             case "카카오뱅크":
                 accountNumber = accountNumber.replace(/(\d{3})(\d{2})(\d{7})/, "$1-$2-$3");
                 break;
+            case "신한":
+                accountNumber = accountNumber.replace(/(\d{3})(\d{3})(\d{6})/, "$1-$2-$3");
+                break;
             case "NH농협":
                 accountNumber = accountNumber.replace(/(\d{3})(\d{4})(\d{4})(\d{2})/, "$1-$2-$3-$4");
                 break;
             case "KB국민":
                 accountNumber = accountNumber.replace(/(\d{6})(\d{2})(\d{6})/, "$1-$2-$3");
-                break;
-            case "신한":
-                accountNumber = accountNumber.replace(/(\d{3})(\d{3})(\d{6})/, "$1-$2-$3");
                 break;
             case "하나":
             case "우리":
@@ -85,46 +82,48 @@ document.addEventListener('DOMContentLoaded', function () {
         accountNumberInput.value = formattedAccountNumberWithHyphen;
     });
 
-    // 환전 금액 입력란에서 숫자에 콤마를 추가하는 함수
-    exchangePointInput.addEventListener("input", function () {
-        var formattedAmount = exchangePointInput.value.replace(/\D/g, ''); // 숫자만 추출
-        exchangePointInput.value = numberWithCommas(formattedAmount);
-    });
-
-    // 숫자에 콤마(,) 추가하는 함수
-    function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // 숫자를 천 단위로 쉼표를 추가하는 함수
+    function 쉼표추가(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    // exchangePoint 입력 필드에 값을 입력할 때 쉼표를 추가하는 이벤트 리스너 추가
+    var exchangePointInput = document.getElementById("exchangePoint");
+    exchangePointInput.addEventListener("input", function () {
+        var value = exchangePointInput.value.replace(/,/g, ''); // 기존 쉼표 제거
+        value = 쉼표추가(value); // 쉼표 추가
+        exchangePointInput.value = value;
+    });
 
     // 폼 유효성 검사 함수
     function validateForm() {
         var nameValue = document.getElementById("name").value;
         var accountNumberValue = document.getElementById("accountNumber").value;
-        var amountInput = document.getElementById("exchangePoint");
-        var amountValue = amountInput.value.replace(/\D/g, ''); // 숫자만 추출
+        var exchangePointInput = document.getElementById("exchangePoint"); // 수정
+        var exchangePointValue = exchangePointInput.value.replace(/,/g, '');
 
         // 이름 검증
         if (!nameValue.trim()) {
             alert("이름을 입력하세요.");
-            return false; // 함수를 종료하고 다음 코드를 실행하지 않음
+            return false;
         }
 
         // 계좌번호 검증
         if (!accountNumberValue.trim()) {
             alert("계좌번호를 입력하세요.");
-            return false; // 함수를 종료하고 다음 코드를 실행하지 않음
+            return false;
         }
 
-        // 환전 금액 검증 (숫자인지 확인)
-        if (!/^\d+$/.test(amountValue)) {
+        // 환전 금액 검증 (쉼표와 숫자로 확인)
+        if (!/^\d+(,\d{1,3})*$/.test(exchangePointValue)) {
             alert("환전 금액을 숫자로 입력하세요.");
-            return false; // 함수를 종료하고 다음 코드를 실행하지 않음
+            return false;
         }
 
         // 환전 금액이 사용자의 포인트보다 큰지 검증
-        if (parseInt(amountValue, 10) > userPoints) {
+        if (parseInt(exchangePointValue, 10) > userPoints) {
             alert("환전 금액이 보유 포인트를 초과하였습니다.");
-            return false; // 함수를 종료하고 다음 코드를 실행하지 않음
+            return false;
         }
 
         // 모든 검증이 통과되면 'content' 값을 설정

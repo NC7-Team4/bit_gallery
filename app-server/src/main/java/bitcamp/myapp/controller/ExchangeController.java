@@ -93,6 +93,8 @@ public class ExchangeController {
     }
   }
 
+
+
   @GetMapping("detail/{no}")
   public String detail(@PathVariable int no, Model model, HttpSession session, RedirectAttributes redirectAttrs) throws Exception {
     Exchange exchange = exchangeService.get(no);

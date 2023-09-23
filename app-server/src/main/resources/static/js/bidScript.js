@@ -54,8 +54,8 @@ document.getElementById('bidButton').addEventListener('click', function () {
             userNo: userNo, // 사용자 번호
             articleNo: articleNo, // 게시글 번호
             bidAmount: bidAmount, // 입찰 금액
-            async: false, // 동기적으로 서버 응답을 처리
         },
+        async: false, // 동기적으로 서버 응답을 처리
         success: function (data) {
             console.log(data);
             if (data.isValidBid === true) { // isValidBid 값을 확인하여 성공 또는 실패 처리
@@ -87,7 +87,7 @@ document.getElementById('bidButton').addEventListener('click', function () {
                 alert('현재가격보다 높은 금액을 입찰해주세요');
                 location.reload();
             }
-            a
+
         },
         error: function (error) {
             console.error('입찰 실패', error);

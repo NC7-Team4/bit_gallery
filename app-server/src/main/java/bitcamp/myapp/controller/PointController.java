@@ -96,6 +96,7 @@ public class PointController {
         User updatedUser = userService.get(Integer.parseInt(dto.getUserNo())); // 업데이트된 회원 정보 가져오기
         session.setAttribute("loginUser", updatedUser); // 세션 업데이트
 
+
         articleService.updateArticleStatus(Integer.parseInt(dto.getArticleNo()));
         articleService.updateArticleBidNum(Integer.parseInt(dto.getArticleNo()));
         userService.updateUserPoints(dto.getUserNo(), dto.getBidAmount());
