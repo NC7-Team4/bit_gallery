@@ -116,9 +116,9 @@
         article_no=#{articleNo}
     </update>
 
-    <update id="updateViewCount" parameterType="int">
+    <update id="updateArticleBidNum" parameterType="int">
         update auction_article set
-        view_count = view_count + 1
+        bid_Count = bid_Count + 1
         where
         article_no=#{articleNo}
     </update>
