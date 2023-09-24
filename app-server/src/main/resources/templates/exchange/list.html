@@ -6,7 +6,6 @@
     <link rel="stylesheet" th:href="@{/css/list.css}" />
 </head>
 <body>
-<div data-th-replace="header :: header"></div>
 <div th:if="${error == 'unauthorized'}">
     <script>
         alert("권한이 없습니다.");
