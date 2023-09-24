@@ -10,11 +10,13 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <style>
-
         /* 전체 스타일 */
         body {
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         a {
@@ -23,62 +25,59 @@
             text-shadow: 2px 2px 4px rgba(135, 206, 235, 0.5);
         }
 
-        /* 헤더 스타일 수정 */
-        .header {
+        /* 공통 헤더와 푸터 스타일 */
+        .header,
+        .footer {
             background-color: #D8D8D8;
-            position: fixed;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .header {
             top: 0;
             left: 0;
             right: 0;
-            height: 80px; /* 헤더의 높이를 80px로 고정 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
         }
 
-        /* 푸터 스타일 수정 */
         .footer {
-            background-color: #D8D8D8;
-            position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 50px; /* 푸터의 높이를 50px로 고정 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            height: 50px;
         }
 
-        /* 콘텐츠 스타일 수정 */
-        body {
-            margin-top: 80px; /* 헤더 높이 만큼 콘텐츠 영역을 아래로 밀어줌 */
-            margin-bottom: 50px; /* 푸터 높이 만큼 콘텐츠 영역을 위로 밀어줌 */
+        /* 콘텐츠 스타일 */
+        .content {
+            flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: calc(100vh - 130px); /* 화면 높이에서 헤더와 푸터 높이를 뺀 만큼의 높이 설정 */
+            padding-top: 80px;
+            padding-bottom: 50px;
         }
 
+        /* 테이블 스타일 */
         table {
-            border-collapse: separate; /* 'collapse' 대신 'separate'로 변경 */
-            border-spacing: 0; /* 테두리 간격을 0으로 설정 */
-            border: none; /* 테두리 없애기 */
-            border-radius: 20px; /* 표 전체에 둥글게 설정 */
-            max-width: 100%; /* 표의 최대 너비를 80%로 설정 */
-            margin: 0 auto; /* 가운데 정렬을 위해 추가 */
+            border-collapse: separate;
+            border-spacing: 0;
+            border: none;
+            border-radius: 20px;
+            max-width: 100%;
+            margin: 0 auto;
         }
 
         th, td {
-            border: 1px solid #ddd; /* 셀 테두리 한 줄로 설정 */
+            border: 1px solid #ddd;
             padding: 7px;
             text-align: center;
             letter-spacing: 1.5px;
         }
 
         th {
-            text-shadow: 2px 2px 4px rgba(128, 128, 128, 0.5); /* 형광펜 효과 추가 */
+            text-shadow: 2px 2px 4px rgba(128, 128, 128, 0.5);
         }
 
         img {
@@ -86,6 +85,7 @@
             max-height: 120px;
         }
 
+        /* 폼 스타일 */
         form {
             width: 40%;
             margin: 210px auto;
@@ -97,19 +97,29 @@
             align-items: center;
         }
 
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 60px; /* 여기를 조절 */
+            padding-bottom: 50px;
+        }
+
     </style>
+
 </head>
 
 <body>
 
 <div data-th-replace="header :: header"></div>
 
-<h1 th:text="${#strings.equals(article.status, 'progress')} ? '진행 중인 경매' : (${#strings.equals(article.status, 'expected')} ? '진행 예정 경매' : (${#strings.equals(article.status, 'end')} ? '종료된 경매' : article.title))">게시글</h1>
 
 
 <p data-th-unless="${article}">해당 번호의 게시글이 없습니다!</p>
 
 <form data-th-if="${article}" enctype='multipart/form-data'>
+    <h1 th:text="${#strings.equals(article.status, 'progress')} ? '진행 중인 경매' : (${#strings.equals(article.status, 'expected')} ? '진행 예정 경매' : (${#strings.equals(article.status, 'end')} ? '종료된 경매' : article.title))">게시글</h1>
     <table border='1'>
         <tr>
             <th style='width:120px;'>작품</th>
@@ -180,6 +190,31 @@
             <td data-th-text="${article.bidCount}">34</td>
         </tr>
     </table>
+
+    <br>
+    <div class="d-flex align-items-center">
+        <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
+        <button id="bidButton" class="btn btn-primary">입찰</button>
+        <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
+            <button class="btn btn-primary">즉시구매</button>
+        </a>
+    </div>
+
+
+    <div>
+        <p>
+            <a data-th-if="${#strings.equals(article.status, 'expected')}"
+               data-th-href="@{/article/update/(articleNo=${article.articleNo},currentPage=${currentPage})}">변경</a>
+            <a data-th-if="${#strings.equals(article.status, 'expected')}"
+               data-th-href="@{/article/delete(articleNo=${article.articleNo},currentPage=${currentPage})}">삭제</a>
+
+            <a data-th-if="${article.path} == 0"
+               data-th-href="@{/article/list(status=${article.status},currentPage=${currentPage})}">목록</a>
+            <a data-th-if="${article.path} == 1"
+               data-th-href="@{/article/list(artist=${article.artist},currentPage=${currentPage})}">목록</a>
+        </p>
+    </div>
+
 </form>
 
 <div>
@@ -187,31 +222,10 @@
         <!--        <a data-th-if="${#strings.equals(article.status, 'progress')}"-->
         <!--           data-th-href="@{/article/detail(articleNo=${article.articleNo}, path=0, currentPage=${currentPage})}">입찰</a>-->
 
-        <a data-th-if="${#strings.equals(article.status, 'progress')}">
-            <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
-            <button id="bidButton" class="btn btn-primary">입찰</button>
-        </a>
-
-
-        <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
-            <button class="btn btn-primary">즉시구매</button>
-        </a>
     </p>
 </div>
 
-<div>
-    <p>
-        <a data-th-if="${#strings.equals(article.status, 'expected')}"
-           data-th-href="@{/article/update/(articleNo=${article.articleNo},currentPage=${currentPage})}">변경</a>
-        <a data-th-if="${#strings.equals(article.status, 'expected')}"
-           data-th-href="@{/article/delete(articleNo=${article.articleNo},currentPage=${currentPage})}">삭제</a>
 
-        <a data-th-if="${article.path} == 0"
-           data-th-href="@{/article/list(status=${article.status},currentPage=${currentPage})}">목록</a>
-        <a data-th-if="${article.path} == 1"
-           data-th-href="@{/article/list(artist=${article.artist},currentPage=${currentPage})}">목록</a>
-    </p>
-</div>
 
 <!-- HTML 태그에 삽입 -->
 <div id="userNo" data-th-text="${session.loginUser.no}" style="display: none;"></div>
