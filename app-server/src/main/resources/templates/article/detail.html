@@ -193,11 +193,13 @@
 
     <br>
     <div class="d-flex align-items-center">
+        <p>
         <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
         <button id="bidButton" class="btn btn-primary">입찰</button>
         <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
             <button class="btn btn-primary">즉시구매</button>
         </a>
+        </p>
     </div>
 
 
