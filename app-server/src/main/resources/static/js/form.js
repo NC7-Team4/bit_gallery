@@ -102,6 +102,16 @@ document.addEventListener('DOMContentLoaded', function () {
         var exchangePointInput = document.getElementById("exchangePoint"); // 수정
         var exchangePointValue = exchangePointInput.value.replace(/,/g, '');
 
+
+        // 환전 금액이 사용자의 포인트보다 큰지 검증
+        if (!accountNumberValue.includes("-")) {
+            // "-" 하이픈이 포함되지 않은 경우
+            alert("올바른 계좌를 입력해주세요.");
+
+            return false;
+        }
+
+
         // 이름 검증
         if (!nameValue.trim()) {
             alert("이름을 입력하세요.");
