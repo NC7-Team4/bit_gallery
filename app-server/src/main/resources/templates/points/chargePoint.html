@@ -17,7 +17,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/mypage.css}">
-    <link rel="stylesheet" th:href="@{/css/list.css}"/>
+    <link rel="stylesheet" th:href="@{/css/list.css}" />
 
     <style>
         a {
@@ -46,26 +46,20 @@
 <!-- 사용자 정보 패널 -->
 <div class="card card-container">
     <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
-    <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"/>
+    <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
     <p id="profile-name" class="profile-name-card">
         <span id="userName" data-th-text="${session.loginUser.name}+님 + ', 안녕하세요.'"></span><br>
     </p>
 
     <br>
-    <span id="userId" data-th-text="'회원번호 : ' + ${session.loginUser.no}"
-          style="display: block; text-align: center;"></span>
-    <span id="email" data-th-text="'이메일 : ' + ${session.loginUser.email}"
-          style="display: block; text-align: center;"></span>
-    <span id="phone" data-th-text="'핸드폰번호 : ' + ${session.loginUser.phone}"
-          style="display: block; text-align: center;"></span>
+    <span id="userId" data-th-text="'회원번호 : ' + ${session.loginUser.no}" style="display: block; text-align: center;"></span>
+    <span id="email" data-th-text="'이메일 : ' + ${session.loginUser.email}" style="display: block; text-align: center;"></span>
+    <span id="phone" data-th-text="'핸드폰번호 : ' + ${session.loginUser.phone}" style="display: block; text-align: center;"></span>
     <br>
     <!-- 포인트 충전 입력 필드 -->
     <div style="display: flex; align-items: center;">
-        <input type="text" id="rechargeAmount"
-               style=" border: none; text-align: center; font-size: 12px; width: 50%; margin-left:50px;"
-               placeholder="충전할 포인트 입력" onkeyup="formatCurrency(this)">
-        <button id="rechargeButton" style="font-size: 12px;">충전</button>
-        <br>
+        <input type="text" id="rechargeAmount" style=" border: none; text-align: center; font-size: 12px; width: 50%; margin-left:50px;" placeholder="충전할 포인트 입력" onkeyup="formatCurrency(this)">
+        <button id="rechargeButton" style="font-size: 12px;">충전</button><br>
     </div>
 
     <!-- 결과 표시를 위한 엘리먼트 -->
@@ -77,6 +71,50 @@
 
 </div><!-- /card-container -->
 <br>
+
+
+<!-- "환전 내역" 버튼 -->
+<button id="fetchData">환전 내역</button>
+
+<!-- 환전 내역 테이블 -->
+<div class="page-container">
+    <table id="exchangeTable" style="display: none;"> <!-- id와 스타일 추가 -->
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>예금주</th>
+            <th>은행</th>
+            <th>계좌번호</th>
+            <th>환전 금액</th> <!-- 환전 금액 칼럼 추가 -->
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody id="exchangeList">
+        <!-- JavaScript에서 이 부분에 동적으로 데이터를 채워넣게 됩니다. -->
+        </tbody>
+    </table>
+</div>
+
+<script src="/js/exchangeAPI.js"></script>
+
+<!-- "입찰 내역" 불러오기 -->
+
+<div class="container mt-5">
+    <button id="loadBidList" class="btn btn-primary mb-3">입찰 내역</button>
+    <table class="table table-bordered table-striped" style="display: none;" id="bidTable">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>작품명</th>
+            <th>가격</th>
+            <th>입찰 여부</th>
+            <th>입찰일</th>
+        </tr>
+        </thead>
+        <tbody id="bidListBody">
+        </tbody>
+    </table>
+</div>
 
 
 <div class="container">
@@ -121,9 +159,7 @@
                                                 <!-- 본인의 글이 아닐 경우에만 자물쇠 아이콘을 출력 -->
                                                 <span th:if="${exchange.user.no != currentUserId}">&#x1F512;</span>
                                             </td>
-                                            <td th:text="${#dates.format(exchange.createdDate, 'yyyy-MM-dd')}">
-                                                2021-09-14
-                                            </td>
+                                            <td th:text="${#dates.format(exchange.createdDate, 'yyyy-MM-dd')}">2021-09-14</td>
                                             <td th:text="${exchange.user.name}">홍길동</td>
                                         </tr>
                                         </tbody>
@@ -135,14 +171,7 @@
                         <div class="panel panel-default panel-faq">
                             <div id="faq-cat-1-sub-2" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                                 </div>
                             </div>
                         </div>
@@ -161,28 +190,14 @@
                             </div>
                             <div id="faq-cat-2-sub-1" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                                 </div>
                             </div>
                         </div>
                         <div class="panel panel-default panel-faq">
                             <div id="faq-cat-2-sub-2" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                                 </div>
                             </div>
                         </div>

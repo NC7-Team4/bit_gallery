@@ -1,4 +1,28 @@
 # bit_gallery
+
+
+2023.09.24 13:00
+
+기능별 통합 남은 부분 :
+
+경매 검색 기능 UI/UX
+경매 진행 게시판 입찰 및 즉시구매 UI
+마이페이지 입찰내역/환전내역 연결 UX
+
+
+
+2023.09.20 15:45
+
+Refactor: User & Article CRUD 구현
+
+- User 및 Article의 CRUD(Create, Read, Update, Delete) 작업을 개선하고 코드를 정리함.
+
+Refactor: 포인트 충전 및 결제 기능 구현
+
+- 포인트 충전 및 결제 기능을 새로 추가함.
+- 관련 코드를 개선하고 결제 프로세스를 구현함.
+
+
 2023.09.20 03:00
 
 Refactor: Article 클래스 업데이트, 게시글 상세 페이지 및 파일 관련 기능 추가
@@ -18,13 +42,5 @@ Refactor: Article 클래스 업데이트, 게시글 상세 페이지 및 파일 
 - 프로젝트 전반적인 코드 리팩터링 및 타임리프 문법 수정 등 오류 해결.
 
 
-2023.09.20 15:45
 
-Refactor: User & Article CRUD 구현
 
-- User 및 Article의 CRUD(Create, Read, Update, Delete) 작업을 개선하고 코드를 정리함.
-
-Refactor: 포인트 충전 및 결제 기능 구현
-
-- 포인트 충전 및 결제 기능을 새로 추가함.
-- 관련 코드를 개선하고 결제 프로세스를 구현함.
