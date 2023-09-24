@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>MyPage</title>
 
-
     <!-- 아임포트 라이브러리 추가 -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
@@ -72,54 +71,9 @@
 </div><!-- /card-container -->
 <br>
 
-
-<!-- "환전 내역" 버튼 -->
-<button id="fetchData">환전 내역</button>
-
-<!-- 환전 내역 테이블 -->
-<div class="page-container">
-    <table id="exchangeTable" style="display: none;"> <!-- id와 스타일 추가 -->
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>예금주</th>
-            <th>은행</th>
-            <th>계좌번호</th>
-            <th>환전 금액</th> <!-- 환전 금액 칼럼 추가 -->
-            <th>작성일</th>
-        </tr>
-        </thead>
-        <tbody id="exchangeList">
-        <!-- JavaScript에서 이 부분에 동적으로 데이터를 채워넣게 됩니다. -->
-        </tbody>
-    </table>
-</div>
-
-<script src="/js/exchangeAPI.js"></script>
-
-<!-- "입찰 내역" 불러오기 -->
-
-<div class="container mt-5">
-    <button id="loadBidList" class="btn btn-primary mb-3">입찰 내역</button>
-    <table class="table table-bordered table-striped" style="display: none;" id="bidTable">
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>작품명</th>
-            <th>가격</th>
-            <th>입찰 여부</th>
-            <th>입찰일</th>
-        </tr>
-        </thead>
-        <tbody id="bidListBody">
-        </tbody>
-    </table>
-</div>
-
-
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">  <!-- 환전, 입찰 내역 container 크기 수정-->
             <!-- Nav tabs category -->
             <ul class="nav nav-tabs faq-cat-tabs">
                 <li class="active"><a href="#faq-cat-1" data-toggle="tab">환전 내역</a></li>
@@ -141,31 +95,23 @@
                             </div>
                             <div id="faq-cat-1-sub-1" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <table>
+                                    <table id="exchangeTable" style="display: none;"> <!-- id와 스타일 추가 -->
                                         <thead>
                                         <tr>
                                             <th>번호</th>
-                                            <th>제목</th>
-                                            <th>작성일</th> <!-- 작성일 열을 먼저 배치 -->
-                                            <th>작성자</th> <!-- 작성자 열을 그 다음에 배치 -->
+                                            <th>예금주</th>
+                                            <th>은행</th>
+                                            <th>계좌번호</th>
+                                            <th>환전 금액</th>
+                                            <th>작성일</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr th:each="exchange : ${list}">
-                                            <td th:text="${exchange.no}">100</td>
-                                            <td>
-                                                <a th:href="@{/exchange/detail/{exchangeNo}(exchangeNo=${exchange.no})}"
-                                                   th:text="${exchange.title} ?: '제목없음'">홍길동님 환전요청</a>
-                                                <!-- 본인의 글이 아닐 경우에만 자물쇠 아이콘을 출력 -->
-                                                <span th:if="${exchange.user.no != currentUserId}">&#x1F512;</span>
-                                            </td>
-                                            <td th:text="${#dates.format(exchange.createdDate, 'yyyy-MM-dd')}">2021-09-14</td>
-                                            <td th:text="${exchange.user.name}">홍길동</td>
-                                        </tr>
+                                        <tbody id="exchangeList">
                                         </tbody>
                                     </table>
                                     <a th:href="@{/exchange/form}" class="request-button">환전 요청</a>
                                 </div>
+                                <script src="/js/exchangeAPI.js"></script>
                             </div>
                         </div>
                         <div class="panel panel-default panel-faq">
