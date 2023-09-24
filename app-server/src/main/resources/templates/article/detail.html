@@ -189,37 +189,27 @@
             <th>입찰횟수</th>
             <td data-th-text="${article.bidCount}">34</td>
         </tr>
+
+
     </table>
 
-    <br>
-    <div class="d-flex align-items-center">
+    <!-- form 안에 넣으면 오류가 발생하는 현상 -->
+
+                <!-- 입찰/즉시구매 폼 -->
+    <div>
         <p>
-        <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
-        <button id="bidButton" class="btn btn-primary">입찰</button>
-        <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
-            <button class="btn btn-primary">즉시구매</button>
-        </a>
+            <a data-th-if="${#strings.equals(article.status, 'progress')}">
+                <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">
+                <button id="bidButton" class="btn btn-primary">입찰</button>
+            </a>
+
+
+            <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">
+                <button class="btn btn-primary">즉시구매</button>
+            </a>
         </p>
     </div>
-
-
-<!--    <div>-->
-<!--        <p>-->
-<!--            &lt;!&ndash;        <a data-th-if="${#strings.equals(article.status, 'progress')}"&ndash;&gt;-->
-<!--            &lt;!&ndash;           data-th-href="@{/article/detail(articleNo=${article.articleNo}, path=0, currentPage=${currentPage})}">입찰</a>&ndash;&gt;-->
-
-<!--            <a data-th-if="${#strings.equals(article.status, 'progress')}">-->
-<!--                <input type="text" id="bidAmount" placeholder="입찰할 금액 입력" onkeyup="formatCurrency(this)">-->
-<!--                <button id="bidButton" class="btn btn-primary">입찰</button>-->
-<!--            </a>-->
-
-
-<!--            <a data-th-if="${#strings.equals(article.status, 'progress')}" id="purchaseButton">-->
-<!--                <button class="btn btn-primary">즉시구매</button>-->
-<!--            </a>-->
-<!--        </p>-->
-<!--    </div>-->
-
+                    <!-- 변경 삭제 목록 폼 -->
     <div>
         <p>
             <a data-th-if="${#strings.equals(article.status, 'expected')}"
@@ -234,15 +224,7 @@
         </p>
     </div>
 
-</form>
-
-<div>
-    <p>
-        <!--        <a data-th-if="${#strings.equals(article.status, 'progress')}"-->
-        <!--           data-th-href="@{/article/detail(articleNo=${article.articleNo}, path=0, currentPage=${currentPage})}">입찰</a>-->
-
-    </p>
-</div>
+    <!-- form 안에 넣으면 오류가 발생하는 현상 -->
 
 
 
@@ -257,7 +239,6 @@
 <div id="userPoint" data-th-text="${session.loginUser.point}" style="display: none;"></div>
 <div id="cuPrice" data-th-text="${article.curPrice}" style="display: none;"></div>
 
-<div data-th-replace="footer :: footer"></div>
 
 <!-- 즉시구매 스크립트 -->
 <script src="/js/purchaseScript.js"></script>
@@ -265,6 +246,8 @@
 <script src="/js/auctionClock.js"></script>
 <!-- 입찰 스크립트 -->
 <script src="/js/bidScript.js"></script>
+</form>
+<div data-th-replace="footer :: footer"></div>
 
 </body>
 </html>
