@@ -54,6 +54,12 @@ public class DefaultUserService implements UserService {
 
   @Transactional
   @Override
+  public int editUpdate(User user) throws Exception {
+    return userDao.editUpdate(user);
+  }
+
+  @Transactional
+  @Override
   public int delete(int userNo) throws Exception {
     return userDao.delete(userNo);
   }

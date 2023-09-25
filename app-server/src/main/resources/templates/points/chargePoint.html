@@ -43,6 +43,13 @@
 
 <!-- 사용자 정보 패널 -->
 <div class="card card-container">
+
+    <div style="text-align: center;">
+        <a href="/user/edit">회원정보 수정</a>
+    </div>
+
+
+
     <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
     <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
     <p id="profile-name" class="profile-name-card">
@@ -50,9 +57,10 @@
     </p>
 
     <br>
-    <span id="userId" data-th-text="'회원번호 : ' + ${session.loginUser.no}" style="display: block; text-align: center;"></span>
     <span id="email" data-th-text="'이메일 : ' + ${session.loginUser.email}" style="display: block; text-align: center;"></span>
     <span id="phone" data-th-text="'핸드폰번호 : ' + ${session.loginUser.phone}" style="display: block; text-align: center;"></span>
+    <span id="address" data-th-text="'주소 : ' + ${session.loginUser.address}" style="display: block; text-align: center;"></span>
+
     <br>
     <!-- 포인트 충전 입력 필드 -->
     <div style="display: flex; align-items: center;">

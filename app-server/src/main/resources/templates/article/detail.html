@@ -152,7 +152,7 @@
         <!-- 입찰/즉시구매 폼 -->
         <div style="text-align: center;">
             <p>
-            <a style="text-align: center;">
+                <a data-th-if="${#strings.equals(article.status, 'progress')} and ${session.loginUser}">
                 <input type="text" id="bidAmount" name="bidAmount" placeholder="입찰할 금액 입력"
                        onkeyup="formatCurrency(this)">
                 <button id="bidButton" class="btn btn-primary">입찰</button>
@@ -226,7 +226,6 @@
     </table>
 
 
-    <!-- form 안에 넣으면 오류가 발생하는 현상 -->
 
     <!-- form 안에 넣으면 오류가 발생하는 현상 -->
     <div id="userNo" data-th-if="${session.loginUser}" data-th-text="${session.loginUser.no}" style="display: none;"></div>
