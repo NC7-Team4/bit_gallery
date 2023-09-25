@@ -37,7 +37,7 @@ public class ArticleController {
   public String add(
           @RequestParam("currentPage") int currentPage,
           Article article,
-          MultipartFile photofile, // 파일 업로드 파라미터로 지정
+          MultipartFile photofile,
           HttpSession session) throws Exception {
 
     User loginUser = (User) session.getAttribute("loginUser");

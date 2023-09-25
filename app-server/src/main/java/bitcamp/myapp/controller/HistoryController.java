@@ -26,7 +26,6 @@ public class HistoryController {
     @Autowired
     HistoryService historyService;
 
-
     @PostMapping("bidList")
     public String bitList(
             @RequestParam("currentPage") int currentPage,
