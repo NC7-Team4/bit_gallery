@@ -87,13 +87,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    // exchangePoint 입력 필드에 값을 입력할 때 쉼표를 추가하는 이벤트 리스너 추가
+// exchangePoint 입력 필드에 값을 입력할 때 쉼표를 추가하는 이벤트 리스너 추가
     var exchangePointInput = document.getElementById("exchangePoint");
     exchangePointInput.addEventListener("input", function () {
         var value = exchangePointInput.value.replace(/,/g, ''); // 기존 쉼표 제거
+        value = value.replace(/\D/g, ''); // 숫자 외의 문자 제거
         value = 쉼표추가(value); // 쉼표 추가
         exchangePointInput.value = value;
     });
+
 
     // 폼 유효성 검사 함수
     function validateForm() {
@@ -124,11 +126,11 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         }
 
-        // 환전 금액 검증 (쉼표와 숫자로 확인)
-        if (!/^\d+(,\d{1,3})*$/.test(exchangePointValue)) {
-            alert("환전 금액을 숫자로 입력하세요.");
-            return false;
-        }
+        // // 환전 금액 검증 (쉼표와 숫자로 확인)
+        // if (!/^\d+(,\d{1,3})*$/.test(exchangePointValue)) {
+        //     alert("환전 금액을 숫자로 입력하세요.");
+        //     return false;
+        // }
 
         // 환전 금액이 사용자의 포인트보다 큰지 검증
         if (parseInt(exchangePointValue, 10) > userPoints) {

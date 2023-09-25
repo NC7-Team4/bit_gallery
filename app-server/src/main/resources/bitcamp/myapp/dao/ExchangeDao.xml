@@ -53,6 +53,8 @@
         auction_exchange e inner join auction_user u on e.user_no=u.user_no
         where
         e.exchange_no=#{exchangeNo}
+        order by
+        e.exchange_no desc
     </select>
 
     <select id="findByUserNo" resultMap="exchangeMap">
