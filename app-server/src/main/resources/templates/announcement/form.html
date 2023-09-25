@@ -73,8 +73,8 @@
         }
         form {
             width: 60%;
-            margin: 210px auto;
-            padding: 20px;
+            margin: 180px auto;
+            padding: 15px;
             border: 4px solid #D8D8D8;
             border-radius: 20px;
             display: flex;
@@ -136,22 +136,24 @@
 
 <div data-th-replace="header :: header"></div>
 
+<div style="display: flex; justify-content: center; align-items: center; padding: 10px; min-height: calc(100vh - 130px);">
+    <form id="announcement-form" onsubmit="return false;" >
 
-<form id="announcement-form" onsubmit="return false;" >
-    <h1>공지사항</h1>
-    <label>제목 <input type='text' name='title' style="width: 500px;" placeholder='제목을 입력해주세요.' /></label><br>
-  <label>내용 <textarea name='content' placeholder='내용을 입력해주세요.' style="width: 500px; height: 500px;" ></textarea></label><br>
-  <input type='file' name='files' multiple><br>
+    <h2 style="text-align: center; font-weight: 320; letter-spacing: 2px;">공지사항 작성</h2>
 
-  <input type='hidden' name='currentPage' data-th-value=${currentPage}>
-  <button id="submit-btn" onclick="addAnnouncement();" >등록</button>
+        <label>제목 <input type='text' name='title' style="width: 500px;" placeholder='제목을 입력해주세요.' /></label><br>
+        <label>내용 <textarea name='content' placeholder='내용을 입력해주세요.' style="width: 500px; height: 500px;" ></textarea></label><br>
+        <input type='file' name='files' multiple><br>
 
-  <label>
-      <input role="switch" type="checkbox" name='fixed' id="switch" pattern="^[0-9]+$" value=1 />
-      <span>상단고정</span>
-  </label>
+        <input type='hidden' name='currentPage' data-th-value=${currentPage}>
+        <button id="submit-btn" onclick="addAnnouncement();" >등록</button>
 
-</form> 
+        <label>
+            <input role="switch" type="checkbox" name='fixed' id="switch" pattern="^[0-9]+$" value=1 />
+            <span>상단고정</span>
+        </label>
+</form>
+</div>
 <div data-th-replace="footer :: footer"></div>
 
 <script>

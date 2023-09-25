@@ -63,6 +63,14 @@
             width: 100%; /* 표의 너비를 100%로 설정 */
         }
 
+            /* 표 스타일 */
+        .fixed-table {
+        width: 900px; /* 원하는 표의 너비 */
+        height: 400px; /* 원하는 표의 높이 */
+        overflow: auto; /* 스크롤바 추가 */
+    }
+
+
         th, td {
             border: 1px solid #ddd; /* 셀 테두리 한 줄로 설정 */
             padding: 7px;
@@ -98,17 +106,15 @@
 
 <div data-th-replace="header :: header"></div>
 
-<div class="content" style="margin:10px;">
-    <div style="border: 8px solid #D8D8D8; padding: 75px; border-radius: 20px;">
+<div class="content" style="margin:15px;">
+    <div style="border: 8px solid #D8D8D8; padding: 50px; border-radius: 20px;">
 
-
-
-        <h2 style="text-align: center; font-weight: 320; letter-spacing: 2px;" th:text="${status == 'progress' ? '진행 중인 경매' : (status == 'expected' ? '진행 예정 경매' : (status == 'end' ? '종료된 경매' : '게시글 목록'))}"></h2>
+        <h2 style="text-align: center; font-weight: 320; margin-top:5px; letter-spacing: 2px;" th:text="${status == 'progress' ? '진행 중인 경매' : (status == 'expected' ? '진행 예정 경매' : (status == 'end' ? '종료된 경매' : '게시글 목록'))}"></h2>
 
         <div style='margin:5px;'>
             <a data-th-href="@{/article/form(currentPage=${currentPage})}" style="font-size: 12px; font-weight: normal; text-align: right;">new</a>
         </div>
-        <table>
+        <table class="fixed-table">
             <thead>
             <tr>
                 <th style="font-size: 12px; font-weight: normal; text-align: center;">이미지</th>
